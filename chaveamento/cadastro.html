@@ -1,27 +1,56 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cadastro</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadastro</title>
+<link rel="stylesheet" href="assets/style/login.css" />
+<!-- Biblioteca do Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/script/login.js" defer></script>
 </head>
-<body style="background-color:#00FFAA;">
-  <div class="container">
-    <div class="form-box">
-      <h2>REALIZAR CADASTRO</h2>
-      <input type="text" id="cadNome" placeholder="Nome" />
-      <input type="email" id="cadEmail" placeholder="E-mail" />
-      <input type="password" id="cadSenha" placeholder="Senha" />
-      <input type="password" id="cadConfirmSenha" placeholder="Confirmar senha" />
-      <select id="cadFuncao">
-        <option value="">Selecione a função</option>
-      </select>
-      <button onclick="cadastrar()" class="btn green">Confirmar Cadastro</button>
-      <a href="login.html"><button class="btn blue">Já possuo cadastro</button></a>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js"></script>
+<body>
+
+<!-- Container principal da tela de cadastro -->
+<div class="card" id="register-container">
+    <img src="img/logo.png" alt="Logo" class="logo" />
+
+    <!-- Título e subtítulo -->
+    <h1 class="title">Cadastro</h1>
+    <p class="subtitle">Crie sua conta para acessar</p>
+
+    <!-- Campo para nome -->
+    <label>Nome</label>
+    <input type="text" id="register-name" placeholder="Digite seu nome" />
+
+    <!-- Campo para email -->
+    <label>Email</label>
+    <input type="email" id="register-email" placeholder="Digite seu email" />
+
+    <!-- Campo para senha -->
+    <label>Senha</label>
+    <input type="password" id="register-password" placeholder="Digite sua senha" />
+
+    <!-- Select para escolher a função (cargo) carregada do banco -->
+    <label>Função</label>
+    <select id="register-role"></select>
+
+    <!-- Botão que chama a função register() -->
+    <button onclick="register()">Cadastrar</button>
+
+    <!-- Área para mostrar erros no cadastro -->
+    <div class="error" id="register-error"></div>
+
+    <!-- Link para voltar para tela de login -->
+    <div class="link" onclick="window.location.href='login.html'">Já tem conta? Fazer login</div>
+</div>
+
+<script>
+  // Carrega as funções disponíveis assim que a página carregar
+  document.addEventListener('DOMContentLoaded', () => {
+    loadRoles();
+  });
+</script>
+
 </body>
 </html>
