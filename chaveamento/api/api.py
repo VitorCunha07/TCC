@@ -1,17 +1,25 @@
 # api_supabase.py
 from fastapi import FastAPI, HTTPException, Depends
-from supabase import create_client
+from supabase import create_client, Client
 from pydantic import BaseModel
 from typing import Optional
 import uuid
 from datetime import datetime
+import logging
 
-# Configuração do Supabase
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 SUPABASE_URL = "https://vvrubxrubmyqmingiaqog.supabase.co"
 SUPABASE_KEY = "sb_secret_gUTiHwcdYvr1os_jCCFKeQ_YJrf2Gsn" 
 
 # Inicializa cliente Supabase
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    logger.info("Cliente Supabase inicializado com sucesso")
+except Exception as e:
+    logger.error(f"Erro ao inicializar cliente Supabase: {e}")
+    supabase = None
 
 # Inicializa FastAPI
 app = FastAPI(
@@ -39,32 +47,44 @@ class UsuarioResponse(BaseModel):
     Funcao: Optional[int] = None
     Data_Criacao: datetime
 
-# Rota padrão de health check
-@app.get("/")
-async def root():
-    return {
-        "message": "API de Autenticação funcionando!",
-        "status": "online",
-        "database": "connected" if SUPABASE_URL and SUPABASE_KEY else "disconnected"
-    }
+# Middleware para verificar conexão com Supabase
+@app.middleware("http")
+async def check_supabase_connection(request, call_next):
+    if supabase is None:
+        raise HTTPException(status_code=500, detail="Conexão com Supabase não inicializada")
+    response = await call_next(request)
+    return response
 
-# Rota de health check
+# Rota para verificar saúde da API
 @app.get("/health")
 async def health_check():
+    return {"status": "healthy", "supabase_connected": supabase is not None}
+
+# Rota para listar todos os usuários (sem senhas)
+@app.get("/listaUsuarios")
+async def listar_usuarios():
     try:
-        # Testa a conexão com o Supabase
-        response = supabase.table("Usuarios").select("count", count="exact").limit(1).execute()
+        logger.info("Iniciando busca de usuários no Supabase")
+        
+        # Verifica se a tabela existe e está acessível
+        response = supabase.table("Usuarios") \
+            .select("ID_Usuario, Cod_Usuario, Nome, Usuario, Data_Criacao, Funcao") \
+            .execute()
+        
+        logger.info(f"Usuários encontrados: {len(response.data)}")
+        
         return {
-            "status": "healthy",
-            "database": "connected",
-            "supabase_status": "working"
+            "success": True,
+            "data": response.data,
+            "count": len(response.data)
         }
+        
     except Exception as e:
-        return {
-            "status": "degraded",
-            "database": "disconnected",
-            "error": str(e)
-        }
+        logger.error(f"Erro detalhado ao buscar usuários: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Erro ao buscar usuários: {str(e)}. Verifique a conexão com o Supabase."
+        )
 
 # Rota para login de usuário
 @app.post("/login")
@@ -136,38 +156,6 @@ async def criar_usuario(usuario: UsuarioCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao criar usuário: {str(e)}")
 
-# Rota para listar todos os usuários (sem senhas)
-@app.get("/usuarios")
-async def listar_usuarios():
-    try:
-        response = supabase.table("Usuarios") \
-            .select("ID_Usuario, Cod_Usuario, Nome, Usuario, Data_Criacao, Funcao") \
-            .execute()
-        
-        return {"data": response.data}
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao buscar usuários: {str(e)}")
-
-# Rota para buscar usuário por ID
-@app.get("/usuarios/{usuario_id}")
-async def buscar_usuario(usuario_id: int):
-    try:
-        response = supabase.table("Usuarios") \
-            .select("ID_Usuario, Cod_Usuario, Nome, Usuario, Data_Criacao, Funcao") \
-            .eq("ID_Usuario", usuario_id) \
-            .execute()
-        
-        if not response.data:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
-        
-        return {"data": response.data[0]}
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao buscar usuário: {str(e)}")
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
