@@ -1,0 +1,114 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fundo degradê */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(90deg, #ff4b2b, #ff914d);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPO */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 25px;
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+}
+
+.top-nav .user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-nav .menu a {
+  margin: 0 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.top-nav .menu a:hover {
+  color: #ff4b2b;
+}
+
+.top-nav .icons {
+  display: flex;
+  gap: 12px;
+}
+
+/* CONTEÚDO */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  color: #fff;
+  padding: 20px;
+}
+
+.left {
+  text-align: center;
+}
+
+.left p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.left button {
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.left button:hover {
+  background: #f2f2f2;
+}
+
+.divider {
+  width: 2px;
+  background: #333;
+  height: 200px;
+}
+
+.right img {
+  width: 120px;
+}
+
+/* FOOTER */
+.footer {
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 2px solid #ddd;
+}
+
+.footer button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer button:hover {
+  color: #ff4b2b;
+}
