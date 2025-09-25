@@ -93,22 +93,50 @@ body {
 
 /* FOOTER */
 .footer {
-  background: #fff;
+  background: #fff; /* fundo neutro */
   display: flex;
   justify-content: space-around;
-  padding: 10px 0;
-  border-top: 2px solid #ddd;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+  position: sticky;
+  bottom: 0;
 }
 
-.footer button {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #333;
-  transition: 0.3s;
+/* BOTÕES */
+.footer-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #666;
+  font-size: 0.8rem;
+  padding: 6px 0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
-.footer button:hover {
+/* Ícones */
+.footer-item i {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+  transition: color 0.3s;
+}
+
+/* Hover */
+.footer-item:hover {
+  color: #ff4b2b;
+  background: rgba(255, 75, 43, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Ativo (opcional, para destacar a página atual) */
+.footer-item.active {
+  color: #ff4b2b;
+  font-weight: bold;
+}
+.footer-item.active i {
   color: #ff4b2b;
 }
