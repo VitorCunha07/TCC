@@ -46,50 +46,67 @@ body {
   gap: 12px;
 }
 
+#config {
+  background: transparent; 
+  border: none;          
+  padding: 0;            
+  cursor: pointer;        
+}
+
+#config i {
+  font-size: 20px;      
+  color: #333;             
+}
+
+#config:hover i {
+  color: #ff4b2b ;      
+}
+
+
 /* CONTEÚDO */
 .main-content {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 50px;
   color: #fff;
   padding: 20px;
-}
-
-.left {
   text-align: center;
 }
 
-.left p {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
+.content-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-.left button {
+.main-logo {
+  width: 250px;   /* aumenta a logo */
+  max-width: 80%;
+}
+
+.content-center p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.content-center button {
   background: #fff;
   color: #333;
   font-weight: bold;
   border: none;
-  padding: 12px 20px;
-  border-radius: 20px;
+  padding: 12px 24px;
+  border-radius: 25px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.left button:hover {
+.content-center button:hover {
   background: #f2f2f2;
 }
 
-.divider {
-  width: 2px;
-  background: #333;
-  height: 200px;
-}
-
-.right img {
-  width: 120px;
-}
 
 /* FOOTER */
 .footer {
