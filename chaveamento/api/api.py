@@ -9,8 +9,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-SUPABASE_URL = "Sua_URL_Supabase_Aqui"  # Substitua pela sua URL real
-SUPABASE_KEY = "Sua_Chave_Supabase_Aqui"  # Substitua pela sua chave real
+SUPABASE_URL = "https://vvrubxrubmyqmingiaqog.supabase.co"
+SUPABASE_KEY = "sb_secret_gUTiHwcdYvr1os_jCCFKeQ_YJrf2Gsn" 
 
 try:
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -25,10 +25,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# NOTE Configuração CORS para permitir conexões do frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # NOTE Em produção, especifique os domínios permitidos
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
