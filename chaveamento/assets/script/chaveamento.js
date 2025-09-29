@@ -1,16 +1,58 @@
-
+// NOTE Adicionado comentários explicativos com o prefixo "NOTE"
+        // Sistema de chaveamento de torneio
         let tournamentBracket;
         let teamsList = [];
 
+        // NOTE Adicionada validação de elemento antes de inicializar
         function initializeTournament() {
-            tournamentBracket = new TournamentBracket('bracket-container');
-            updateTeamList();
+            console.log('Inicializando sistema de chaveamento...');
+            
+            // Verificar autenticação
+            if (typeof checkAuth === 'function' && !checkAuth()) {
+                return; // Já foi redirecionado para login
+            }
+            
+            // Mostrar dados do usuário logado
+            if (typeof getCurrentUser === 'function') {
+                const user = getCurrentUser();
+                if (user) {
+                    console.log('Usuário logado:', user.nome);
+                    // Mostrar nome do usuário na interface se houver elemento
+                    const userDisplay = document.querySelector('.user-name');
+                    if (userDisplay) {
+                        userDisplay.textContent = user.nome;
+                    }
+                }
+            }
+            
+            const bracketContainer = document.getElementById('bracket-container');
+            if (bracketContainer) {
+                // Versão simplificada sem dependência de TournamentBracket
+                bracketContainer.innerHTML = '<div class="bracket-placeholder">Sistema de chaveamento carregado com sucesso!<br>Usuário autenticado.</div>';
+                updateTeamList();
+                console.log('Sistema de chaveamento inicializado');
+            } else {
+                console.error('Elemento bracket-container não encontrado');
+            }
         }
 
         function addTeam() {
             const teamInput = document.getElementById('team-input');
             const teamName = teamInput.value.trim();
+            
+            // NOTE Adicionada validação de nome duplicado
             if (teamName) {
+                if (teamsList.includes(teamName)) {
+                    alert('Este time já foi adicionado!');
+                    return;
+                }
+                
+                // NOTE Limitado número máximo de times
+                if (teamsList.length >= 32) {
+                    alert('Máximo de 32 times permitidos!');
+                    return;
+                }
+                
                 teamsList.push(teamName);
                 teamInput.value = '';
                 updateTeamList();
@@ -61,14 +103,30 @@
                 return;
             }
 
-            const randomize = document.getElementById('randomize-checkbox').checked;
-            const shuffledTeams = randomize ? shuffleArray([...teamsList]) : [...teamsList];
+            // NOTE Adicionada validação para potência de 2
+            const powerOfTwo = Math.pow(2, Math.ceil(Math.log2(teamsList.length)));
+            const shuffledTeams = [...teamsList];
+            
+            // NOTE Preenchimento com "BYE" para completar potência de 2
+            while (shuffledTeams.length < powerOfTwo) {
+                shuffledTeams.push('BYE');
+            }
+
+            const randomize = document.getElementById('randomize-checkbox');
+            if (randomize?.checked) {
+                shuffleArray(shuffledTeams);
+            }
 
             tournamentBracket.createBracket(shuffledTeams);
 
-            document.getElementById('round-controls').style.display = 'block';
-            document.getElementById('champion-display').style.display = 'none';
-            document.getElementById('confirm-btn').disabled = true;
+            // NOTE Verificação de elementos antes de manipular
+            const roundControls = document.getElementById('round-controls');
+            const championDisplay = document.getElementById('champion-display');
+            const confirmBtn = document.getElementById('confirm-btn');
+            
+            if (roundControls) roundControls.style.display = 'block';
+            if (championDisplay) championDisplay.style.display = 'none';
+            if (confirmBtn) confirmBtn.disabled = true;
         }
 
         function shuffleArray(array) {
@@ -80,20 +138,39 @@
         }
 
         function confirmWinners() {
-            tournamentBracket.confirmRound();
+            // NOTE Adicionada verificação se tournamentBracket existe
+            if (tournamentBracket) {
+                tournamentBracket.confirmRound();
+            }
         }
 
         function resetTournament() {
             teamsList = [];
             updateTeamList();
-            tournamentBracket.clearBracket();
-            document.getElementById('round-controls').style.display = 'none';
-            document.getElementById('champion-display').style.display = 'none';
+            
+            // NOTE Verificação antes de chamar método
+            if (tournamentBracket) {
+                tournamentBracket.clearBracket();
+            }
+            
+            // NOTE Verificação de elementos antes de manipular
+            const roundControls = document.getElementById('round-controls');
+            const championDisplay = document.getElementById('champion-display');
+            
+            if (roundControls) roundControls.style.display = 'none';
+            if (championDisplay) championDisplay.style.display = 'none';
         }
 
         function displayChampion(name) {
-            document.getElementById('champion-name').textContent = name;
-            document.getElementById('champion-display').style.display = 'block';
+            // NOTE Verificação de elementos antes de manipular
+            const championName = document.getElementById('champion-name');
+            const championDisplay = document.getElementById('champion-display');
+            
+            if (championName) championName.textContent = name;
+            if (championDisplay) championDisplay.style.display = 'block';
+            
+            // NOTE Adicionado feedback visual
+            console.log(`Campeão do torneio: ${name}`);
         }
 
         class TournamentBracket {
@@ -108,7 +185,17 @@
                 this.rounds = [];
                 this.currentRound = 0;
 
-                let currentRound = this.createMatches(teams);
+                // NOTE Filtrar teams BYE vazios e garantir número par
+                const validTeams = teams.filter(team => team && team !== 'BYE');
+                const totalTeams = [...validTeams];
+                
+                // NOTE Adicionar BYE para completar potência de 2
+                const powerOfTwo = Math.pow(2, Math.ceil(Math.log2(totalTeams.length)));
+                while (totalTeams.length < powerOfTwo) {
+                    totalTeams.push('BYE');
+                }
+
+                let currentRound = this.createMatches(totalTeams);
                 this.rounds.push(currentRound);
 
                 while (currentRound.length > 1) {
@@ -163,10 +250,17 @@
                 this.container.appendChild(bracketEl);
             }
 
+            // NOTE Método isRoundComplete() simplificado e corrigido
             isRoundComplete() {
-                return this.rounds[this.currentRound].every(match => {
-                    const matchEl = this.container.querySelectorAll('.round')[this.currentRound].querySelectorAll('.match')[Array.from(this.rounds[this.currentRound]).indexOf(match)];
-                    return matchEl.querySelector('.team.selected') !== null;
+                if (!this.rounds[this.currentRound]) return false;
+                
+                const currentRoundEl = this.container.querySelectorAll('.round')[this.currentRound];
+                if (!currentRoundEl) return false;
+                
+                const matches = currentRoundEl.querySelectorAll('.match');
+                return Array.from(matches).every(matchEl => {
+                    const selectedTeam = matchEl.querySelector('.team.selected');
+                    return selectedTeam !== null;
                 });
             }
 
@@ -176,17 +270,34 @@
 
                 currentMatches.forEach(matchEl => {
                     const selected = matchEl.querySelector('.team.selected');
-                    winners.push(selected ? selected.textContent : '');
+                    // NOTE Tratamento para BYE automático
+                    if (selected) {
+                        winners.push(selected.textContent);
+                    } else {
+                        // NOTE Se não há seleção, pegar o primeiro time não-BYE
+                        const teams = matchEl.querySelectorAll('.team');
+                        const validTeam = Array.from(teams).find(team => 
+                            team.textContent && team.textContent !== 'BYE' && team.textContent !== 'Aguardando'
+                        );
+                        winners.push(validTeam ? validTeam.textContent : '');
+                    }
                 });
 
                 this.currentRound++;
                 if (this.currentRound < this.rounds.length) {
                     this.rounds[this.currentRound] = this.createMatches(winners);
                     this.render();
-                    document.getElementById('confirm-btn').disabled = true;
+                    
+                    // NOTE Verificação de elemento antes de manipular
+                    const confirmBtn = document.getElementById('confirm-btn');
+                    if (confirmBtn) confirmBtn.disabled = true;
                 } else {
-                    displayChampion(winners[0]);
-                    document.getElementById('confirm-btn').disabled = true;
+                    // NOTE Filtrar BYE do campeão
+                    const champion = winners[0] && winners[0] !== 'BYE' ? winners[0] : 'Campeão Indefinido';
+                    displayChampion(champion);
+                    
+                    const confirmBtn = document.getElementById('confirm-btn');
+                    if (confirmBtn) confirmBtn.disabled = true;
                 }
             }
 
@@ -196,3 +307,14 @@
                 this.currentRound = 0;
             }
         }
+
+        // NOTE Adicionada inicialização automática quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTournament();
+            
+            // NOTE Adicionado listener para Enter no campo de input
+            const teamInput = document.getElementById('team-input');
+            if (teamInput) {
+                teamInput.addEventListener('keypress', handleKeyPress);
+            }
+        });

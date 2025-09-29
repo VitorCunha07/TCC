@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chaveamento - Allian's Arena</title>
     <link rel="stylesheet" href="assets/style/chaveamento.css">
+    <!-- Cliente da API FastAPI -->
+    <script src="assets/script/api-client.js"></script>
+    <!-- NOTE Adicionado Supabase para verificação de autenticação -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/script/login.js"></script>
    
 </head>
 <body onload="initializeTournament()">
 
     <div class="container">
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo Allian's Arena"> <!-- Use your hosted logo URL -->
+        <!-- NOTE Adicionado botão de logout -->
+        <div class="header">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Allian's Arena">
+            </div>
+            <button class="logout-btn" onclick="logout()">Sair</button>
         </div>
 
         <h1>Chaveamento de Torneio</h1>

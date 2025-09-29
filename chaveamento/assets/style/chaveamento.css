@@ -24,9 +24,32 @@
             margin: auto;
         }
 
+        /* NOTE Adicionado CSS para header com botão de logout */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #b71c1c;
+        }
+
         .logo {
             text-align: center;
-            margin-bottom: 20px;
         }
 
         .logo img {

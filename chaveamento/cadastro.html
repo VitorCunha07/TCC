@@ -4,11 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cadastro</title>
-<link rel="stylesheet" href="assets/style/global.css" />
-<link rel="stylesheet" href="assets/style/cadastro.css" />
-<!-- Biblioteca do Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/script/cadastro.js" defer></script>
+<link rel="stylesheet" href="assets/style/login.css" />
 </head>
 <body>
 
@@ -32,12 +28,16 @@
     <label>Senha</label>
     <input type="password" id="register-password" placeholder="Digite sua senha" />
 
+    <!-- NOTE Adicionado campo de confirmação de senha -->
+    <label>Confirmar Senha</label>
+    <input type="password" id="register-confirm-password" placeholder="Confirme sua senha" />
+
     <!-- Select para escolher a função (cargo) carregada do banco -->
     <label>Função</label>
     <select id="register-role"></select>
 
     <!-- Botão que chama a função register() -->
-    <button onclick="register()">Cadastrar</button>
+    <button type="button" onclick="event.preventDefault(); register(event); return false;">Cadastrar</button>
 
     <!-- Área para mostrar erros no cadastro -->
     <div class="error" id="register-error"></div>
@@ -46,10 +46,36 @@
     <div class="link" onclick="window.location.href='login.html'">Já tem conta? Fazer login</div>
 </div>
 
+<!-- CORREÇÃO: Scripts carregados de forma mais robusta -->
+<script>
+    console.log('Página de cadastro carregando...');
+    console.log('HTML carregado com sucesso');
+</script>
+
+<!-- Cliente da API FastAPI -->
+<script src="assets/script/api-client.js" 
+        onload="console.log('API Client carregado')" 
+        onerror="console.error('Erro ao carregar API Client')"></script>
+
+<!-- Biblioteca do Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
+        onload="console.log('Supabase CDN carregado')" 
+        onerror="console.error('Erro ao carregar Supabase CDN')"></script>
+
+<!-- Script principal -->
+<script src="assets/script/login.js" 
+        onload="console.log('Login.js carregado')" 
+        onerror="console.error('Erro ao carregar login.js')"></script>
+
 <script>
   // Carrega as funções disponíveis assim que a página carregar
   document.addEventListener('DOMContentLoaded', () => {
-    loadRoles();
+    console.log('DOMContentLoaded - carregando roles...');
+    if (typeof loadRoles === 'function') {
+      loadRoles();
+    } else {
+      console.error('Função loadRoles não encontrada');
+    }
   });
 </script>
 
