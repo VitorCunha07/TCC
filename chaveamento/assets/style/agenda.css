@@ -1,0 +1,22 @@
+.voltar3 {
+  background-color: #007bff; /* cor do botão */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  
+}
+
+.voltar:hover {
+  background-color: #0056b3; /* cor ao passar o mouse */
+}
+
+ 
+.CentroBotão3 {
+  display: flex;
+  align-items: center;      /* centro vertical */
+  justify-content: center;  /* centro horizontal */
+  height: 100vh;            /* ocupa a tela inteira */
+}
