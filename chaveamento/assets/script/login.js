@@ -357,15 +357,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadRoles()
   }
   
+  // ⚠️ VALIDAÇÃO DE LOGIN DESATIVADA
   // Verificar se usuário já está logado e redirecionar se necessário
-  const currentPage = window.location.pathname.split('/').pop()
-  if (currentPage === 'chaveamento.html') {
-    const userData = localStorage.getItem('usuario')
-    if (!userData) {
-      console.log('Usuário não logado, redirecionando para login')
-      window.location.href = 'login.html'
-    }
-  }
+  // const currentPage = window.location.pathname.split('/').pop()
+  // if (currentPage === 'chaveamento.html') {
+  //   const userData = localStorage.getItem('usuario')
+  //   if (!userData) {
+  //     console.log('Usuário não logado, redirecionando para login')
+  //     window.location.href = 'login.html'
+  //   }
+  // }
 })
 
 // Função de logout
@@ -386,23 +387,24 @@ function logout() {
     }
   }
   
-  // Redirecionar para login
-  console.log('Redirecionando para login...');
-  window.location.href = 'login.html';
+  // Redirecionar para homepage
+  console.log('Redirecionando para homepage...');
+  window.location.href = 'homepage.html';
 }
 
 // Função para verificar se usuário está logado
 function checkAuth() {
-  const userData = localStorage.getItem('usuario');
-  const currentPage = window.location.pathname.split('/').pop();
+  // ⚠️ VALIDAÇÃO DESATIVADA - SEMPRE RETORNA TRUE
+  // const userData = localStorage.getItem('usuario');
+  // const currentPage = window.location.pathname.split('/').pop();
   
-  if (currentPage === 'chaveamento.html' && !userData) {
-    console.log('Usuário não autorizado, redirecionando para login');
-    window.location.href = 'login.html';
-    return false;
-  }
+  // if (currentPage === 'chaveamento.html' && !userData) {
+  //   console.log('Usuário não autorizado, redirecionando para login');
+  //   window.location.href = 'login.html';
+  //   return false;
+  // }
   
-  return true;
+  return true; // SEMPRE PERMITE ACESSO
 }
 
 // Função para obter dados do usuário logado
