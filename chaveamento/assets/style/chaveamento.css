@@ -1,243 +1,251 @@
+:root {
+    --primary: #ff6f00;
+    --secondary: #212121;
+    --light: #ffffff;
+    --gray: #f5f5f5;
+}
 
-        :root {
-            --primary: #ff6f00;
-            --secondary: #212121;
-            --light: #ffffff;
-            --gray: #f5f5f5;
-        }
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(to bottom right, #ff6f00, #ff9100);
+    color: var(--secondary);
+    min-height: 100vh;
+    padding: 20px;
+}
 
-        body {
-            margin: 0;
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(to bottom right, #ff6f00, #ff9100);
-            color: var(--secondary);
-            min-height: 100vh;
-            padding: 20px;
-        }
+.container {
+    background-color: var(--light);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: auto;
+}
 
-        .container {
-            background-color: var(--light);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            max-width: 1200px;
-            margin: auto;
-        }
+/* NOTE Adicionado CSS para header com botão de logout */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        /* NOTE Adicionado CSS para header com botão de logout */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.logout-btn {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
 
-        .logout-btn {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
+.logout-btn:hover {
+    background-color: #b71c1c;
+}
 
-        .logout-btn:hover {
-            background-color: #b71c1c;
-        }
+.logo {
+    text-align: center;
+}
 
-        .logo {
-            text-align: center;
-        }
+.logo img {
+    max-height: 180px;
+}
 
-        .logo img {
-            max-height: 180px;
-        }
+h1 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
 
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+.input-section {
+    background-color: #fff3e0;
+    border-left: 5px solid var(--primary);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
 
-        .input-section {
-            background-color: #fff3e0;
-            border-left: 5px solid var(--primary);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
+.team-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
 
-        .team-input-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    font-size: 16px;
+}
 
-        input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            font-size: 16px;
-        }
+.add-team-btn, button {
+    background-color: var(--primary);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
 
-        .add-team-btn, button {
-            background-color: var(--primary);
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
+.add-team-btn:hover, button:hover {
+    background-color: #e65100;
+}
 
-        .add-team-btn:hover, button:hover {
-            background-color: #e65100;
-        }
+.team-list {
+    background-color: var(--gray);
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
 
-        .team-list {
-            background-color: var(--gray);
-            border-radius: 8px;
-            padding: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
+.team-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: white;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
 
-        .team-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            background-color: white;
-            margin-bottom: 6px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
+.remove-team {
+    color: red;
+    cursor: pointer;
+}
 
-        .remove-team {
-            color: red;
-            cursor: pointer;
-        }
+.options {
+    margin: 10px 0;
+}
 
-        .options {
-            margin: 10px 0;
-        }
+#bracket-container {
+    margin-top: 30px;
+    overflow-x: auto;
+}
 
-        #bracket-container {
-            margin-top: 30px;
-            overflow-x: auto;
-        }
+.bracket {
+    display: flex;
+    gap: 40px;
+}
 
-        .bracket {
-            display: flex;
-            gap: 40px;
-        }
+.round {
+    min-width: 200px;
+}
 
-        .round {
-            min-width: 200px;
-        }
+.round h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--primary);
+    background-color: #fff3e0;
+    padding: 8px;
+    border-radius: 4px;
+}
 
-        .round h3 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
+.match {
+    background-color: #ffe0b2;
+    margin-bottom: 20px;
+    padding: 8px;
+    border-radius: 8px;
+}
 
-        .match {
-            background-color: #ffe0b2;
-            margin-bottom: 20px;
-            padding: 8px;
-            border-radius: 8px;
-        }
+.team {
+    background-color: white;
+    padding: 10px;
+    margin: 4px 0;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
 
-        .team {
-            background-color: white;
-            padding: 10px;
-            margin: 4px 0;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
+.team:hover {
+    background-color: #ffe082;
+}
 
-        .team:hover {
-            background-color: #ffe082;
-        }
+.team.selected {
+    background-color: #ffd54f;
+    font-weight: bold;
+}
 
-        .team.selected {
-            background-color: #ffd54f;
-            font-weight: bold;
-        }
+.team.empty {
+    background-color: #eee;
+    color: #aaa;
+    cursor: default;
+}
 
-        .team.empty {
-            background-color: #eee;
-            color: #aaa;
-            cursor: default;
-        }
+.status-message {
+    text-align: center;
+    background-color: #fff8e1;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #e65100;
+}
 
-        .status-message {
-            text-align: center;
-            background-color: #fff8e1;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            color: #e65100;
-        }
+.champion-container {
+    text-align: center;
+    background-color: #ffecb3;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
 
-        .champion-container {
-            text-align: center;
-            background-color: #ffecb3;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
+.champion-title {
+    font-size: 24px;
+    color: #d84315;
+}
 
-        .champion-title {
-            font-size: 24px;
-            color: #d84315;
-        }
+.champion-name {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #e65100;
+}
 
-        .champion-name {
-            font-size: 32px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #e65100;
-        }
+.trophy {
+    font-size: 40px;
+}
 
-        .trophy {
-            font-size: 40px;
-        }
+.round-controls {
+    text-align: center;
+    margin-top: 20px;
+}
 
-        .round-controls {
-            text-align: center;
-            margin-top: 20px;
-        }
+.confirm-btn {
+    background-color: #4caf50;
+}
 
-        .confirm-btn {
-            background-color: #4caf50;
-        }
+.confirm-btn:hover {
+    background-color: #388e3c;
+}
 
-        .confirm-btn:hover {
-            background-color: #388e3c;
-        }
+.reset-btn {
+    background-color: #f44336;
+}
 
-        .reset-btn {
-            background-color: #f44336;
-        }
+.reset-btn:hover {
+    background-color: #c62828;
+}
 
-        .reset-btn:hover {
-            background-color: #c62828;
-        }
+.bracket-placeholder {
+    text-align: center;
+    padding: 40px;
+    background-color: #fff8e1;
+    border-radius: 8px;
+    color: #e65100;
+    font-size: 18px;
+}
 
-        /* Confetti placeholder (use your existing one or animation if needed) */
-        .confetti-container {
-            display: none;
-        }
-     
-            
-        
+/* Confetti placeholder (use your existing one or animation if needed) */
+.confetti-container {
+    display: none;
+}
