@@ -192,7 +192,8 @@ class TournamentBracket {
         let currentTeams = teams;
         this.rounds = [this.createMatches(currentTeams)];
 
-        while (currentTeams.length > 1) {
+        // CORREÇÃO: Criar apenas as rodadas necessárias até a final
+        while (currentTeams.length > 2) {
             currentTeams = new Array(Math.ceil(currentTeams.length / 2)).fill('');
             this.rounds.push(this.createMatches(currentTeams));
         }
@@ -368,6 +369,7 @@ class TournamentBracket {
         // Avançar para próxima rodada
         this.currentRound++;
 
+        // CORREÇÃO: Verificar se é a última rodada (final)
         if (this.currentRound < this.rounds.length) {
             // Preencher próxima rodada com os vencedores
             const nextRound = this.rounds[this.currentRound];
