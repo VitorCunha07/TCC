@@ -1,22 +1,373 @@
-.voltar3 {
-  background-color: #007bff; /* cor do botão */
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  
+/* Estilos baseados no design do chaveamento */
+:root {
+    --primary: #ff6f00;
+    --secondary: #212121;
+    --light: #ffffff;
+    --gray: #f5f5f5;
+    --dark-gray: #333;
+    --success: #4caf50;
+    --warning: #ff9800;
+    --danger: #f44336;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom right, #ff6f00, #ff9100);
+    color: var(--secondary);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: var(--light);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    max-height: 180px;
+}
+
+.voltar {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .voltar:hover {
-  background-color: #0056b3; /* cor ao passar o mouse */
+    background-color: #e65100;
 }
 
- 
-.CentroBotão3 {
-  display: flex;
-  align-items: center;      /* centro vertical */
-  justify-content: center;  /* centro horizontal */
-  height: 100vh;            /* ocupa a tela inteira */
+h1 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* Navegação da agenda */
+.agenda-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff3e0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.nav-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-btn:hover {
+    background-color: #e65100;
+}
+
+.current-period {
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--secondary);
+}
+
+/* Filtros */
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.filters select {
+    padding: 10px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: white;
+    min-width: 180px;
+}
+
+.filter-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: #e65100;
+}
+
+/* Seção de jogos da semana */
+.games-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: var(--primary);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ffe0b2;
+}
+
+.games-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.game-card {
+    background-color: #ffe0b2;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    border-left: 4px solid var(--primary);
+}
+
+.game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.game-card.agendado {
+    border-left-color: var(--warning);
+}
+
+.game-card.em-andamento {
+    border-left-color: var(--success);
+}
+
+.game-card.finalizado {
+    border-left-color: var(--danger);
+}
+
+.teams {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.game-date {
+    text-align: center;
+    color: var(--dark-gray);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--dark-gray);
+}
+
+.game-tournament {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.game-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-agendado {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-em-andamento {
+    background-color: #d1edff;
+    color: #0c5460;
+}
+
+.status-finalizado {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Próximos jogos em tabela */
+.upcoming-games {
+    margin-top: 30px;
+}
+
+.games-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.games-table th {
+    background-color: var(--primary);
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.games-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.games-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.games-table tr:hover {
+    background-color: #fff3e0;
+}
+
+/* Rodapé */
+.footer {
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    margin-top: 30px;
+    border-radius: 0 0 12px 12px;
+}
+
+.footer-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.8rem;
+    padding: 6px 0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.footer-item i {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    transition: color 0.3s;
+}
+
+.footer-item:hover {
+    color: #ff4b2b;
+    background: rgba(255, 75, 43, 0.1);
+    transform: translateY(-2px);
+}
+
+.footer-item.active {
+    color: #ff4b2b;
+    font-weight: bold;
+}
+
+.footer-item.active i {
+    color: #ff4b2b;
+}
+
+/* Estados vazios */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: #fff8e1;
+    border-radius: 8px;
+    color: #e65100;
+    font-size: 18px;
+    grid-column: 1 / -1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .agenda-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .games-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .games-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filters select {
+        min-width: auto;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 5px;
+    }
 }
