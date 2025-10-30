@@ -1,15 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Configurações - Allian's Arena</title>
     <link rel="stylesheet" href="assets/style/configuração.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div class="CentroBotão">
-<button class="voltar" onclick="window.location.href='homepage.html'">
-  Voltar
-</button>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Allian's Arena">
+            </div>
+            <button class="voltar" onclick="window.location.href='homepage.html'">
+                <i class="fa-solid fa-arrow-left"></i> <span data-i18n="voltar">Voltar</span>
+            </button>
+        </div>
+
+        <h1 data-i18n="configuracoes">Configurações</h1>
+
+        <!-- Seção de Tema -->
+        <div class="settings-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-palette"></i>
+                <span data-i18n="selecionarTema">Selecionar Tema</span>
+            </h2>
+            <div class="theme-options">
+                <div class="theme-option" data-theme="dark">
+                    <div class="theme-preview dark-theme">
+                        <div class="preview-header"></div>
+                        <div class="preview-content"></div>
+                    </div>
+                    <span data-i18n="escuro">Escuro</span>
+                </div>
+                <div class="theme-option active" data-theme="orange">
+                    <div class="theme-preview orange-theme">
+                        <div class="preview-header"></div>
+                        <div class="preview-content"></div>
+                    </div>
+                    <span data-i18n="laranja">Laranja</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Suporte -->
+        <div class="settings-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-headset"></i>
+                <span data-i18n="suporte">Suporte</span>
+            </h2>
+            <div class="support-content">
+                <div class="support-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="support-info">
+                        <h3>E-mail para Suporte</h3>
+                        <p>alibros.arena@gmail.com</p>
+                        <button class="email-btn">Copiar E-mail</button>
+                    </div>
+                </div>
+                <div class="support-item">
+                    <i class="fa-solid fa-download"></i>
+                    <div class="support-info">
+                        <h3>Sur da Cour</h3>
+                        <p>Download do manual do usuário</p>
+                        <button class="download-btn">Baixar Manual</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Conta -->
+        <div class="settings-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-user"></i>
+                <span data-i18n="minhaConta">Minha Conta</span>
+            </h2>
+            <div class="account-settings">
+                <div class="account-item">
+                    <label for="username">Nome de Usuário</label>
+                    <div class="input-container">
+                        <input type="text" id="username" value="Usuário Atual">
+                        <button class="save-btn" data-i18n="salvar">Salvar</button>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <label for="notifications" data-i18n="notificacoes">Notificações</label>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-status" id="toggle-status">Ativado</span>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <label for="language" data-i18n="idioma">Idioma</label>
+                    <div class="select-container">
+                        <select id="language">
+                            <option value="pt">Português</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <a href="torneios.html" class="footer-item">
+                <i class="fa-solid fa-trophy"></i>
+                <span data-i18n="torneios">Torneios</span>
+            </a>
+            <a href="ranking.html" class="footer-item">
+                <i class="fa-solid fa-chart-bar"></i>
+                <span data-i18n="ranking">Ranking</span>
+            </a>
+            <a href="partidas.html" class="footer-item">
+                <i class="fa-solid fa-khanda"></i>
+                <span data-i18n="partidas">Partidas</span>
+            </a>
+            <a href="agenda.html" class="footer-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span data-i18n="agenda">Agenda</span>
+            </a>
+            <a href="configuração.html" class="footer-item active">
+                <i class="fa-solid fa-gear"></i>
+                <span data-i18n="configuracoes">Configurações</span>
+            </a>
+        </footer>
+    </div>
+
+    <script src="assets/script/configuração.js"></script>
 </body>
 </html>
