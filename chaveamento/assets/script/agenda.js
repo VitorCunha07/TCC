@@ -110,55 +110,6 @@ const sampleGames = [
     }
 ];
 
-// Função para gerar jogos aleatórios com times brasileiros
-function generateRandomGames(count) {
-    const games = [];
-    const usedPairs = new Set();
-    
-    for (let i = 0; i < count; i++) {
-        let team1, team2, pairKey;
-        
-        // Garantir que não repita o mesmo par de times
-        do {
-            team1 = brazilianTeams[Math.floor(Math.random() * brazilianTeams.length)];
-            team2 = brazilianTeams[Math.floor(Math.random() * brazilianTeams.length)];
-            
-            // Evitar que um time jogue contra si mesmo
-            while (team1 === team2) {
-                team2 = brazilianTeams[Math.floor(Math.random() * brazilianTeams.length)];
-            }
-            
-            pairKey = [team1, team2].sort().join(' vs ');
-        } while (usedPairs.has(pairKey));
-        
-        usedPairs.add(pairKey);
-        
-        const statuses = ['agendado', 'em-andamento', 'finalizado'];
-        const status = statuses[Math.floor(Math.random() * statuses.length)];
-        
-        // Gerar data aleatória nos próximos 30 dias
-        const daysFromNow = Math.floor(Math.random() * 30) - 5; // -5 a 25 dias
-        const date = new Date();
-        date.setDate(date.getDate() + daysFromNow);
-        
-        // Gerar horário aleatório
-        const hours = Math.floor(Math.random() * 8) + 14; // 14h às 22h
-        const minutes = Math.random() > 0.5 ? '00' : '30';
-        const time = `${hours}:${minutes}`;
-        
-        games.push({
-            id: sampleGames.length + i + 1,
-            team1,
-            team2,
-            date,
-            time,
-            status
-        });
-    }
-    
-    return games;
-}
-
 // Função para formatar datas
 function formatDate(date) {
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -292,14 +243,6 @@ function goToNextWeek() {
     loadCurrentWeekGames();
 }
 
-// Função para gerar mais jogos
-function generateMoreGames() {
-    const newGames = generateRandomGames(8);
-    sampleGames.push(...newGames);
-    applyFilters();
-    alert('8 novos jogos aleatórios foram gerados!');
-}
-
 // Função para integrar com o sistema de chaveamento
 function loadGamesFromBracket() {
     // Em um sistema real, isso buscaria os jogos do chaveamento
@@ -325,15 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('prev-week').addEventListener('click', goToPreviousWeek);
     document.getElementById('next-week').addEventListener('click', goToNextWeek);
     document.getElementById('apply-filters').addEventListener('click', applyFilters);
-    
-    // Adicionar botão para gerar mais jogos (apenas para demonstração)
-    const filtersDiv = document.querySelector('.filters');
-    const generateBtn = document.createElement('button');
-    generateBtn.className = 'filter-btn';
-    generateBtn.id = 'generate-games';
-    generateBtn.textContent = 'Gerar Mais Jogos';
-    generateBtn.addEventListener('click', generateMoreGames);
-    filtersDiv.appendChild(generateBtn);
     
     // Aplicar filtros ao carregar a página
     applyFilters();

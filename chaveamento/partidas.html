@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidas - Allian's Arena</title>
+    <link rel="stylesheet" href="assets/style/partidas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Allian's Arena">
+            </div>
+            <button class="voltar" onclick="window.location.href='homepage.html'">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </button>
+        </div>
+
+        <h1>Partidas</h1>
+
+        <!-- Filtros -->
+        <div class="filters">
+            <select id="status-filter">
+                <option value="">Todas as Partidas</option>
+                <option value="agendado">Agendadas</option>
+                <option value="em-andamento">Em Andamento</option>
+                <option value="finalizado">Finalizadas</option>
+            </select>
+            
+            <button class="filter-btn" id="apply-filters">
+                <i class="fa-solid fa-filter"></i> Aplicar Filtros
+            </button>
+        </div>
+
+        <!-- Lista de Partidas -->
+        <div class="matches-section">
+            <h2 class="section-title">Partidas</h2>
+            <div class="matches-list" id="matches-list">
+                <!-- As partidas serão carregadas dinamicamente via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <a href="torneios.html" class="footer-item">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Torneios</span>
+            </a>
+            <a href="ranking.html" class="footer-item">
+                <i class="fa-solid fa-chart-bar"></i>
+                <span>Ranking</span>
+            </a>
+            <a href="partidas.html" class="footer-item active">
+                <i class="fa-solid fa-khanda"></i>
+                <span>Partidas</span>
+            </a>
+            <a href="agenda.html" class="footer-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Agenda</span>
+            </a>
+            <a href="configuração.html" class="footer-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configurações</span>
+            </a>
+        </footer>
+    </div>
+
+    <!-- Modal para detalhes da partida -->
+    <div id="match-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-content">
+                <!-- Conteúdo será carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script/partidas.js"></script>
+    <script src="assets/script/configuração.js"></script>
+</body>
+</html>
