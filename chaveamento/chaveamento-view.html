@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaveamento - Allian's Arena</title>
+    <link rel="stylesheet" href="assets/style/chaveamento-view.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Allian's Arena">
+            </div>
+            <button class="voltar" onclick="window.location.href='torneios.html'">
+                <i class="fa-solid fa-arrow-left"></i> Voltar para Torneios
+            </button>
+        </div>
+
+        <h1 id="tournament-name">Chaveamento do Torneio</h1>
+
+        <!-- Informações do torneio -->
+        <div class="tournament-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" id="tournament-status">Carregando...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Rodada Atual:</span>
+                    <span class="info-value" id="current-round">Carregando...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Total de Times:</span>
+                    <span class="info-value" id="total-teams">Carregando...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Campeão:</span>
+                    <span class="info-value" id="tournament-champion">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chaveamento -->
+        <div class="bracket-section">
+            <h2 class="section-title">Chaveamento</h2>
+            <div id="bracket-container" class="bracket-container">
+                <!-- O chaveamento será carregado dinamicamente via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <a href="torneios.html" class="footer-item">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Torneios</span>
+            </a>
+            <a href="ranking.html" class="footer-item">
+                <i class="fa-solid fa-chart-bar"></i>
+                <span>Ranking</span>
+            </a>
+            <a href="partidas.html" class="footer-item">
+                <i class="fa-solid fa-khanda"></i>
+                <span>Partidas</span>
+            </a>
+            <a href="agenda.html" class="footer-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Agenda</span>
+            </a>
+            <a href="configuração.html" class="footer-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configurações</span>
+            </a>
+        </footer>
+    </div>
+
+    <script src="assets/script/chaveamento-view.js"></script>
+    <script src="assets/script/configuração.js"></script>
+</body>
+</html>
