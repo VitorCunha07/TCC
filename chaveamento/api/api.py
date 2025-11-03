@@ -150,7 +150,7 @@ async def listar_usuarios():
 
         logger.info(f"Usuários encontrados: {len(response.data)}")
 
-        return {
+        return {  
             "success": True,
             "data": response.data,
             "count": len(response.data),
@@ -199,9 +199,9 @@ async def login(credenciais: UsuarioLogin = None):
         return {"message": "Use POST com Usuario e Senha"}
 
     try:
-        response = supabase.table('Usuarios') \
+        response = supabase.table("Usuarios") \
             .select("*") \
-            .eq("usuario", credenciais.Usuario) \
+            .eq("Usuario", credenciais.Usuario) \
             .execute()
 
         if not response.data:
@@ -209,10 +209,10 @@ async def login(credenciais: UsuarioLogin = None):
 
         usuario = response.data[0]
 
-        if usuario["senha"] != credenciais.Senha:
+        if usuario["Senha"] != credenciais.Senha:
             raise HTTPException(status_code=401, detail="Senha incorreta")
 
-        usuario.pop("senha", None)
+        usuario.pop("Senha", None)
 
         return {
             "message": "Login realizado com sucesso",
@@ -230,33 +230,33 @@ async def login(credenciais: UsuarioLogin = None):
 @app.post("/usuarios")
 async def criar_usuario(usuario: UsuarioCreate = None):
     if usuario is None:
-        return {"message": "Use POST com Nome, Usuario e Senha para criar usuário"}
+        return {"message": "Use POST com Nome, Usuario, Senha e Funcao para criar usuário"}
 
     try:
         logger.info(f"Tentando criar usuário: {usuario.Usuario}")
 
-        response = supabase.table('Usuarios') \
-            .select("usuario") \
-            .eq("usuario", usuario.Usuario) \
+        response = supabase.table("Usuarios") \
+            .select("Usuario") \
+            .eq("Usuario", usuario.Usuario) \
             .execute()
 
         if response.data:
             raise HTTPException(status_code=400, detail="Nome de usuário já existe")
 
         novo_usuario = {
-            "nome": usuario.Nome,
-            "usuario": usuario.Usuario,
-            "senha": usuario.Senha,
-            "funcao": usuario.Funcao
+            "Nome": usuario.Nome,
+            "Usuario": usuario.Usuario,
+            "Senha": usuario.Senha,
+            "Funcao": usuario.Funcao
         }
 
-        response = supabase.table('Usuarios').insert(novo_usuario).execute()
+        response = supabase.table("Usuarios").insert(novo_usuario).execute()
 
         if not response.data:
             raise HTTPException(status_code=500, detail="Falha ao inserir usuário - resposta vazia")
 
         usuario_criado = response.data[0]
-        usuario_criado.pop("senha", None)
+        usuario_criado.pop("Senha", None)
 
         return {
             "message": "Usuário criado com sucesso",
