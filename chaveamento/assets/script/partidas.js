@@ -12,8 +12,8 @@ const teamFlags = {
     "Internacional": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/SC_Internacional_Brazil_Logo.svg/250px-SC_Internacional_Brazil_Logo.svg.png",
     "Atlético-MG": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3VOz8Ue2HvfTwnVVlHku3eMBtPYpwenKlNg&s",
     "Cruzeiro": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg/250px-Cruzeiro_Esporte_Clube_%28logo%29.svg.png",
-    "Fluminense": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Bandeira_do_estado_do_Rio_de_Janeiro.svg/250px-Bandeira_do_estado_do_Rio_de_Janeiro.svg.png",
-    "Botafogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Bandeira_do_estado_do_Rio_de_Janeiro.svg/250px-Bandeira_do_estado_do_Rio_de_Janeiro.svg.png",
+    "Fluminense": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/FFC_crest.svg/1037px-FFC_crest.svg.png",
+    "Botafogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg/250px-Botafogo_de_Futebol_e_Regatas_logo.svg.png",
     "Vasco": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Bandeira_do_estado_do_Rio_de_Janeiro.svg/250px-Bandeira_do_estado_do_Rio_de_Janeiro.svg.png",
     "Bahia": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Bandeira_da_Bahia.svg/250px-Bandeira_da_Bahia.svg.png",
     "Sport": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Bandeira_de_Pernambuco.svg/250px-Bandeira_de_Pernambuco.svg.png",
@@ -36,8 +36,8 @@ const teamBadges = {
     "Internacional": "https://upload.wikimedia.org/wikipedia/pt/thumb/f/f1/Internacional.png/250px-Internacional.png",
     "Atlético-MG": "https://upload.wikimedia.org/wikipedia/pt/thumb/2/27/Atletico_mineiro_2019.png/250px-Atletico_mineiro_2019.png",
     "Cruzeiro": "https://upload.wikimedia.org/wikipedia/pt/thumb/5/52/Cruzeiro_1968.png/250px-Cruzeiro_1968.png",
-    "Fluminense": "https://upload.wikimedia.org/wikipedia/pt/thumb/a/a7/Fluminense_FC_escudo.svg.png/250px-Fluminense_FC_escudo.svg.png",
-    "Botafogo": "https://upload.wikimedia.org/wikipedia/pt/thumb/4/42/Botafogo_de_Futebol_e_Regatas.png/250px-Botafogo_de_Futebol_e_Regatas.png",
+    "Fluminense": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/FFC_crest.svg/1037px-FFC_crest.svg.png",
+    "Botafogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg/250px-Botafogo_de_Futebol_e_Regatas_logo.svg.png",
     "Vasco": "https://upload.wikimedia.org/wikipedia/pt/thumb/8/87/Vasco_da_Gama.png/250px-Vasco_da_Gama.png",
     "Bahia": "https://upload.wikimedia.org/wikipedia/pt/thumb/6/6d/Esporte_Clube_Bahia.svg/250px-Esporte_Clube_Bahia.svg.png",
     "Sport": "https://upload.wikimedia.org/wikipedia/pt/thumb/4/41/Sport_Club_do_Recife.svg/250px-Sport_Club_do_Recife.svg.png",
@@ -73,7 +73,7 @@ const teamColors = {
     "Bragantino": "#C20C26"
 };
 
-// Dados de exemplo para partidas com estatísticas
+// Dados de exemplo para partidas com estatísticas (APENAS FINALIZADAS E EM ANDAMENTO)
 const sampleMatches = [
     {
         id: 1,
@@ -101,19 +101,6 @@ const sampleMatches = [
     },
     {
         id: 2,
-        team1: "São Paulo",
-        team2: "Corinthians",
-        score1: null,
-        score2: null,
-        date: new Date(new Date().setDate(new Date().getDate() + 1)),
-        time: "20:30",
-        location: "Allian's Arena",
-        tournament: "Campeonato",
-        status: "agendado",
-        stats: null
-    },
-    {
-        id: 3,
         team1: "Grêmio",
         team2: "Internacional",
         score1: 1,
@@ -137,7 +124,7 @@ const sampleMatches = [
         }
     },
     {
-        id: 4,
+        id: 3,
         team1: "Atlético-MG",
         team2: "Cruzeiro",
         score1: 2,
@@ -161,7 +148,7 @@ const sampleMatches = [
         }
     },
     {
-        id: 5,
+        id: 4,
         team1: "Fluminense",
         team2: "Botafogo",
         score1: 2,
@@ -183,19 +170,6 @@ const sampleMatches = [
             corners: { team1: 5, team2: 2 },
             offsides: { team1: 1, team2: 2 }
         }
-    },
-    {
-        id: 6,
-        team1: "Fortaleza",
-        team2: "Ceará",
-        score1: null,
-        score2: null,
-        date: new Date(new Date().setDate(new Date().getDate() + 3)),
-        time: "19:30",
-        location: "Allian's Arena",
-        tournament: "Campeonato",
-        status: "agendado",
-        stats: null
     }
 ];
 
