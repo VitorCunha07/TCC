@@ -14,30 +14,45 @@
 
     <!-- Título e subtítulo -->
     <h1 class="title">Cadastro</h1>
-    <p class="subtitle">Crie sua conta para acessar</p>
+    <p class="subtitle">Crie sua conta para acessar o sistema</p>
 
     <!-- Campo para nome -->
-    <label>Nome</label>
-    <input type="text" id="register-name" placeholder="Digite seu nome" />
+    <label for="register-name">Nome</label>
+    <input type="text" id="register-name" placeholder="Digite seu nome completo" />
 
     <!-- Campo para email -->
-    <label>Email</label>
+    <label for="register-email">Email</label>
     <input type="email" id="register-email" placeholder="Digite seu email" />
 
     <!-- Campo para senha -->
-    <label>Senha</label>
-    <input type="password" id="register-password" placeholder="Digite sua senha" />
+    <label for="register-password">Senha</label>
+    <div class="password-container">
+        <input type="password" id="register-password" placeholder="Digite sua senha (mín. 8 caracteres)" />
+        <button type="button" class="toggle-password" onclick="togglePassword('register-password')" title="Mostrar senha">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565655.png" alt="Olho aberto" class="eye-open" />
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565649.png" alt="Olho fechado" class="eye-closed" />
+        </button>
+    </div>
+    <div class="password-info">A senha deve ter no mínimo 8 caracteres</div>
 
-    <!-- NOTE Adicionado campo de confirmação de senha -->
-    <label>Confirmar Senha</label>
-    <input type="password" id="register-confirm-password" placeholder="Confirme sua senha" />
+    <!-- Campo de confirmação de senha -->
+    <label for="register-confirm-password">Confirmar Senha</label>
+    <div class="password-container">
+        <input type="password" id="register-confirm-password" placeholder="Confirme sua senha" />
+        <button type="button" class="toggle-password" onclick="togglePassword('register-confirm-password')" title="Mostrar senha">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565655.png" alt="Olho aberto" class="eye-open" />
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565649.png" alt="Olho fechado" class="eye-closed" />
+        </button>
+    </div>
 
     <!-- Select para escolher a função (cargo) carregada do banco -->
-    <label>Função</label>
-    <select id="register-role"></select>
+    <label for="register-role">Função</label>
+    <select id="register-role">
+        <option value="">Carregando funções...</option>
+    </select>
 
     <!-- Botão que chama a função register() -->
-    <button type="button" onclick="event.preventDefault(); register(event); return false;">Cadastrar</button>
+    <button type="button" onclick="register(event)">Cadastrar</button>
 
     <!-- Área para mostrar erros no cadastro -->
     <div class="error" id="register-error"></div>
@@ -46,39 +61,18 @@
     <div class="link" onclick="window.location.href='login.html'">Já tem conta? Fazer login</div>
 </div>
 
-<!-- CORREÇÃO: Scripts carregados de forma mais robusta -->
 <script>
     console.log('Página de cadastro carregando...');
-    console.log('HTML carregado com sucesso');
 </script>
 
 <!-- Cliente da API FastAPI -->
-<script src="assets/script/api-client.js" 
-        onload="console.log('API Client carregado')" 
-        onerror="console.error('Erro ao carregar API Client')"></script>
+<script src="assets/script/api-client.js"></script>
 
 <!-- Biblioteca do Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
-        onload="console.log('Supabase CDN carregado')" 
-        onerror="console.error('Erro ao carregar Supabase CDN')"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Script principal -->
-<script src="assets/script/login.js" 
-        onload="console.log('Login.js carregado')" 
-        onerror="console.error('Erro ao carregar login.js')"></script>
-
-<script>
-  // Carrega as funções disponíveis assim que a página carregar
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded - carregando roles...');
-    if (typeof loadRoles === 'function') {
-      loadRoles();
-    } else {
-      console.error('Função loadRoles não encontrada');
-    }
-  });
-</script>
-<script src="assets/script/configuração.js"></script>
+<script src="assets/script/login.js"></script>
 
 </body>
 </html>

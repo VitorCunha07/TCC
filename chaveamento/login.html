@@ -16,15 +16,23 @@
     <h1 class="title">Login</h1>
 
     <!-- Campo para o usuário digitar email -->
-    <label>Email</label>
+    <label for="login-email">Email</label>
     <input type="email" id="login-email" placeholder="Digite seu email" />
 
     <!-- Campo para o usuário digitar a senha -->
-    <label>Senha</label>
-    <input type="password" id="login-password" placeholder="Digite sua senha" onkeypress="if(event.key==='Enter') { event.preventDefault(); login(event); return false; }" />
+    <label for="login-password">Senha</label>
+    <div class="password-container">
+        <input type="password" id="login-password" placeholder="Digite sua senha (mín. 8 caracteres)" 
+               onkeypress="if(event.key==='Enter') login(event)" />
+        <button type="button" class="toggle-password" onclick="togglePassword('login-password')" title="Mostrar senha">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565655.png" alt="Olho aberto" class="eye-open" />
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565649.png" alt="Olho fechado" class="eye-closed" />
+        </button>
+    </div>
+    <div class="password-info">A senha deve ter no mínimo 8 caracteres</div>
 
     <!-- Botão que chama a função login() no script.js -->
-    <button type="button" onclick="event.preventDefault(); login(event); return false;">Fazer Login</button>
+    <button type="button" onclick="login(event)">Fazer Login</button>
 
     <!-- Área para mostrar mensagem de erro ao tentar logar -->
     <div class="error" id="login-error"></div>
@@ -33,34 +41,18 @@
     <div class="link" onclick="window.location.href='register.html'">Não tem conta? Cadastre-se</div>
 </div>
 
-<!-- CORREÇÃO: Scripts carregados de forma mais robusta -->
 <script>
     console.log('Página de login carregando...');
-    
-    // Função de fallback se o login não funcionar
-    window.loginFallback = function() {
-        alert('Sistema de login temporariamente indisponível. Redirecionando para chaveamento...');
-        window.location.href = 'chaveamento.html';
-    };
-    
-    console.log('HTML carregado com sucesso');
 </script>
 
 <!-- Cliente da API FastAPI -->
-<script src="assets/script/api-client.js" 
-        onload="console.log('API Client carregado')" 
-        onerror="console.error('Erro ao carregar API Client')"></script>
+<script src="assets/script/api-client.js"></script>
 
 <!-- Biblioteca do Supabase para autenticação -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
-        onload="console.log('Supabase CDN carregado')" 
-        onerror="console.error('Erro ao carregar Supabase CDN')"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Script principal -->
-<script src="assets/script/login.js" 
-        onload="console.log('Login.js carregado')" 
-        onerror="console.error('Erro ao carregar login.js')"></script>
-        <script src="assets/script/configuração.js"></script>
+<script src="assets/script/login.js"></script>
 
 </body>
 </html>

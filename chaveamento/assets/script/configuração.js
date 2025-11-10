@@ -78,7 +78,9 @@ function applyLanguage(language) {
             idioma: 'Idioma',
             salvar: 'Salvar',
             escuro: 'Escuro',
-            laranja: 'Laranja'
+            laranja: 'Laranja',
+            sessao: 'Sessão',
+            sair: 'Sair da Conta'
         },
         en: {
             voltar: 'Back',
@@ -97,7 +99,9 @@ function applyLanguage(language) {
             idioma: 'Language',
             salvar: 'Save',
             escuro: 'Dark',
-            laranja: 'Orange'
+            laranja: 'Orange',
+            sessao: 'Session',
+            sair: 'Logout'
         },
         es: {
             voltar: 'Volver',
@@ -116,7 +120,9 @@ function applyLanguage(language) {
             idioma: 'Idioma',
             salvar: 'Guardar',
             escuro: 'Oscuro',
-            laranja: 'Naranja'
+            laranja: 'Naranja',
+            sessao: 'Sesión',
+            sair: 'Cerrar Sesión'
         }
     };
 
@@ -138,6 +144,8 @@ function applyLanguage(language) {
     updateElementText('[data-i18n="notificacoes"]', lang.notificacoes);
     updateElementText('[data-i18n="idioma"]', lang.idioma);
     updateElementText('[data-i18n="salvar"]', lang.salvar);
+    updateElementText('[data-i18n="sessao"]', lang.sessao);
+    updateElementText('[data-i18n="sair"]', lang.sair);
     
     // Atualizar opções de tema
     updateElementText('[data-theme="dark"] span', lang.escuro);
@@ -187,9 +195,31 @@ function updateUsername(username) {
     });
 }
 
+// FUNÇÃO DE LOGOUT
+function logout() {
+    console.log('Iniciando logout...');
+    
+    // Mostrar confirmação
+    if (confirm('Tem certeza que deseja sair da sua conta?')) {
+        // Limpa todos os dados de autenticação
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('appSettings');
+        
+        // Mostrar mensagem de sucesso
+        showNotification('Logout realizado com sucesso!', 'success');
+        
+        // Redireciona para a página de login após 1 segundo
+        setTimeout(() => {
+            console.log('Redirecionando para login...');
+            window.location.href = 'login.html';
+        }, 1000);
+    }
+}
+
 // Função para copiar e-mail de suporte
 function copyEmail() {
-    const email = 'alibros.arena@gmail.com';
+    const email = 'alinsarena.arena@gmail.com';
     navigator.clipboard.writeText(email).then(() => {
         showNotification('E-mail copiado para a área de transferência!', 'success');
     }).catch(err => {
@@ -321,6 +351,16 @@ function initializeSettings() {
     if (downloadBtn) {
         downloadBtn.addEventListener('click', downloadManual);
     }
+
+    // Carregar nome do usuário atual se estiver logado
+    const usuario = localStorage.getItem('usuario');
+    if (usuario) {
+        const usuarioObj = JSON.parse(usuario);
+        const usernameInput = document.getElementById('username');
+        if (usernameInput) {
+            usernameInput.value = usuarioObj.nome || usuarioObj.Nome || 'Usuário';
+        }
+    }
 }
 
 // Adicionar estilos CSS para notificações e animações
@@ -340,3 +380,6 @@ document.head.appendChild(style);
 
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', initializeSettings);
+
+// Disponibiliza a função logout globalmente
+window.logout = logout;

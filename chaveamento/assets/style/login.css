@@ -1,21 +1,24 @@
 /* Fonte principal da página */
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ff914d, #ff6600);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 /* Card branco que contém os formulários */
 .card {
     background: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    width: 320px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 400px;
     text-align: left;
     animation: fadeIn 0.4s ease-in-out;
 }
@@ -23,101 +26,230 @@ body {
 /* Logo centralizada */
 .logo {
     display: block;
-    margin: 0 auto 10px auto;
-    width: 60px;
+    margin: 0 auto 15px auto;
+    width: 280px;
+    height: auto;
 }
 
 /* Título das telas */
 .title {
     text-align: center;
     color: #ff6600;
-    font-size: 22px;
-    margin-bottom: 4px;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
 /* Subtítulo no cadastro */
 .subtitle {
     text-align: center;
-    color: #777;
+    color: #666;
     font-size: 14px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    line-height: 1.4;
 }
 
 /* Labels dos inputs */
 label {
     font-size: 14px;
     color: #333;
-    margin-top: 10px;
+    margin-top: 15px;
     display: block;
+    font-weight: 500;
+}
+
+/* Container para inputs de senha com botão de visualizar */
+.password-container {
+    position: relative;
+    width: 100%;
+    margin-top: 5px;
 }
 
 /* Estilo dos inputs e selects */
 input, select {
     width: 100%;
-    padding: 10px;
+    padding: 12px 15px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 2px solid #e0e0e0;
     border-radius: 8px;
     outline: none;
     font-size: 14px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+/* Inputs de senha com padding extra para o botão */
+.password-container input {
+    padding-right: 50px;
+}
+
+/* Botão de visualizar senha */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    border-radius: 4px;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+    background-color: #f0f0f0;
+}
+
+.toggle-password img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+/* Ícone quando a senha está visível */
+.toggle-password.showing img.eye-open {
+    opacity: 1;
+}
+
+.toggle-password.showing img.eye-closed {
+    opacity: 0;
+}
+
+/* Ícone quando a senha está oculta */
+.toggle-password:not(.showing) img.eye-open {
+    opacity: 0;
+}
+
+.toggle-password:not(.showing) img.eye-closed {
+    opacity: 1;
 }
 
 /* Efeito quando o input/select está focado */
 input:focus, select:focus {
     border-color: #ff6600;
-    box-shadow: 0 0 5px rgba(255,102,0,0.5);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
 }
 
 /* Botão principal */
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #ff6600;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff6600, #ff914d);
     border: none;
     border-radius: 8px;
     color: white;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
 }
 
 /* Efeito hover no botão */
 button:hover {
-    background-color: #e65c00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 /* Links para troca entre telas */
 .link {
-    margin-top: 12px;
+    margin-top: 20px;
     text-align: center;
     color: #ff6600;
     cursor: pointer;
     font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+}
+
+.link:hover {
+    color: #e65c00;
+    text-decoration: underline;
 }
 
 /* Mensagens de erro */
 .error {
-    color: red;
+    color: #d32f2f;
     font-size: 13px;
-    margin-top: 5px;
+    margin-top: 8px;
     text-align: center;
+    min-height: 20px;
+    line-height: 1.4;
+    padding: 5px;
+    border-radius: 4px;
+    background: rgba(211, 47, 47, 0.05);
 }
 
-/* Mensagem de sucesso na tela success.html */
-.success-screen {
-    font-size: 26px;
-    color: green;
-    text-align: center;
+/* Mensagem de informação sobre senha */
+.password-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    text-align: left;
+    line-height: 1.4;
+    padding-left: 5px;
 }
 
 /* Animação de fadeIn para os cards */
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
 }
 
-.logo {
-    display: block;
-    margin: 0 auto 10px auto;
-    width: 290px; /* aumente esse valor para deixar maior */
+/* Responsividade */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    
+    .card {
+        padding: 25px 20px;
+    }
+    
+    .logo {
+        width: 240px;
+    }
+    
+    .title {
+        font-size: 22px;
+    }
+}
+
+/* Melhorias de acessibilidade */
+input:focus, select:focus, button:focus {
+    outline: 2px solid #ff6600;
+    outline-offset: 2px;
+}
+
+/* Estilo para selects */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+    padding-right: 40px;
 }
