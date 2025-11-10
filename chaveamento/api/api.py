@@ -1,3 +1,4 @@
+import hashlib
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client, Client
@@ -33,18 +34,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 class UsuarioCreate(BaseModel):
     Nome: str
     Usuario: str
     Senha: str
     Funcao: Optional[int] = None
 
-
 class UsuarioLogin(BaseModel):
     Usuario: str
     Senha: str
-
 
 class UsuarioResponse(BaseModel):
     id_usuario: int
@@ -54,7 +52,6 @@ class UsuarioResponse(BaseModel):
     funcao: Optional[int] = None
     data_criacao: datetime
 
-
 @app.middleware("http")
 async def check_supabase_connection(request, call_next):
     if supabase is None:
@@ -63,11 +60,27 @@ async def check_supabase_connection(request, call_next):
     response = await call_next(request)
     return response
 
-
 @app.get("/")
 async def root():
     return {"message": "API Supabase ativa", "version": "1.0.0"}
 
+@app.get("/debug/supabase")
+async def debug_supabase():
+    try:
+        # Testa conexão com a tabela Usuarios
+        usuarios = supabase.table('Usuarios').select("*").limit(5).execute()
+        # Testa conexão com a tabela Funcoes
+        funcoes = supabase.table('Funcoes').select("*").limit(5).execute()
+        
+        return {
+            "supabase_connected": True,
+            "usuarios_count": len(usuarios.data),
+            "funcoes_count": len(funcoes.data),
+            "usuarios_sample": usuarios.data,
+            "funcoes_sample": funcoes.data
+        }
+    except Exception as e:
+        return {"supabase_connected": False, "error": str(e)}
 
 @app.get("/debug/tabelas")
 async def verificar_tabelas():
@@ -104,7 +117,6 @@ async def verificar_tabelas():
     except Exception as e:
         return {"error": f"Erro geral: {str(e)}"}
 
-
 @app.get("/health")
 async def health_check():
     try:
@@ -125,7 +137,6 @@ async def health_check():
             "error": str(e),
             "supabase_url": SUPABASE_URL
         }
-
 
 @app.get("/listaUsuarios")
 async def listar_usuarios():
@@ -166,7 +177,6 @@ async def listar_usuarios():
             detail=f"Erro ao buscar usuários: {str(e)}. Verifique a conexão com o Supabase."
         )
 
-
 @app.get("/listaFuncoes")
 async def listar_funcoes():
     try:
@@ -191,28 +201,32 @@ async def listar_funcoes():
         logger.error(f"Erro ao buscar funções: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro ao buscar funções: {str(e)}")
 
-
-@app.get("/login")
 @app.post("/login")
-async def login(credenciais: UsuarioLogin = None):
-    if credenciais is None:
-        return {"message": "Use POST com Usuario e Senha"}
-
+async def login(credenciais: UsuarioLogin):
     try:
+        logger.info(f"Tentando login para usuário: {credenciais.Usuario}")
+
         response = supabase.table("Usuarios") \
             .select("*") \
             .eq("Usuario", credenciais.Usuario) \
             .execute()
 
         if not response.data:
+            logger.warning(f"Usuário não encontrado: {credenciais.Usuario}")
             raise HTTPException(status_code=401, detail="Usuário não encontrado")
 
         usuario = response.data[0]
+        logger.info(f"Usuário encontrado: {usuario['Nome']}")
 
+        # Verifica senha (em texto plano - conforme seu sistema atual)
         if usuario["Senha"] != credenciais.Senha:
+            logger.warning(f"Senha incorreta para usuário: {credenciais.Usuario}")
             raise HTTPException(status_code=401, detail="Senha incorreta")
 
+        # Remove a senha da resposta
         usuario.pop("Senha", None)
+
+        logger.info(f"Login realizado com sucesso para: {credenciais.Usuario}")
 
         return {
             "message": "Login realizado com sucesso",
@@ -223,40 +237,43 @@ async def login(credenciais: UsuarioLogin = None):
     except HTTPException:
         raise
     except Exception as e:
+        logger.error(f"Erro ao realizar login: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro ao realizar login: {str(e)}")
 
-
-@app.get("/usuarios")
 @app.post("/usuarios")
-async def criar_usuario(usuario: UsuarioCreate = None):
-    if usuario is None:
-        return {"message": "Use POST com Nome, Usuario, Senha e Funcao para criar usuário"}
-
+async def criar_usuario(usuario: UsuarioCreate):
     try:
         logger.info(f"Tentando criar usuário: {usuario.Usuario}")
 
+        # Verifica se usuário já existe
         response = supabase.table("Usuarios") \
             .select("Usuario") \
             .eq("Usuario", usuario.Usuario) \
             .execute()
 
         if response.data:
+            logger.warning(f"Tentativa de criar usuário já existente: {usuario.Usuario}")
             raise HTTPException(status_code=400, detail="Nome de usuário já existe")
 
+        # Cria novo usuário
         novo_usuario = {
             "Nome": usuario.Nome,
             "Usuario": usuario.Usuario,
             "Senha": usuario.Senha,
-            "Funcao": usuario.Funcao
+            "Funcao": usuario.Funcao,
+            "Data_Criacao": datetime.now().isoformat()
         }
 
         response = supabase.table("Usuarios").insert(novo_usuario).execute()
 
         if not response.data:
+            logger.error("Falha ao inserir usuário - resposta vazia")
             raise HTTPException(status_code=500, detail="Falha ao inserir usuário - resposta vazia")
 
         usuario_criado = response.data[0]
         usuario_criado.pop("Senha", None)
+
+        logger.info(f"Usuário criado com sucesso: {usuario.Usuario}")
 
         return {
             "message": "Usuário criado com sucesso",
@@ -266,8 +283,8 @@ async def criar_usuario(usuario: UsuarioCreate = None):
     except HTTPException:
         raise
     except Exception as e:
+        logger.error(f"Erro ao criar usuário: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro ao criar usuário: {str(e)}")
-
 
 if __name__ == "__main__":
     import uvicorn

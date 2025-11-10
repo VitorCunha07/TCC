@@ -37,6 +37,11 @@ function initializeTournament() {
     }
 }
 
+// NOTE Adicionada função para ir para homepage
+function goToHomepage() {
+    window.location.href = 'homepage.html'; // Redireciona para homepage.html
+}
+
 function addTeam() {
     const teamInput = document.getElementById('team-input');
     const teamName = teamInput.value.trim();
