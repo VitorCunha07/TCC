@@ -28,7 +28,7 @@ function applySettings(settings) {
     updateUsername(settings.username);
 }
 
-// Função para aplicar tema
+// Função para aplicar tema - COMPATÍVEL COM HOMEPAGE
 function applyTheme(theme) {
     const body = document.body;
     
@@ -38,16 +38,8 @@ function applyTheme(theme) {
     // Adiciona a classe do tema selecionado
     body.classList.add(theme + '-theme');
     
-    // Atualiza o gradiente de fundo baseado no tema
-    switch(theme) {
-        case 'dark':
-            body.style.background = 'linear-gradient(to bottom right, #0a0a0a, #1a1a1a)'; /* Preto mais escuro */
-            break;
-        case 'orange':
-        default:
-            body.style.background = 'linear-gradient(to bottom right, #e65c00, #ff7700)'; /* Laranja mais escuro */
-            break;
-    }
+    // Aplica o gradiente de fundo baseado no tema (compatível com homepage)
+    applyBackgroundGradient(theme);
     
     // Atualiza a seleção visual nos temas
     document.querySelectorAll('.theme-option').forEach(option => {
@@ -56,6 +48,26 @@ function applyTheme(theme) {
             option.classList.add('active');
         }
     });
+}
+
+// Função para aplicar gradiente de fundo (compatível com homepage)
+function applyBackgroundGradient(theme) {
+    const body = document.body;
+    
+    switch(theme) {
+        case 'dark':
+            body.style.background = 'linear-gradient(90deg, #1a1a1a, #2d2d2d)';
+            break;
+        case 'orange':
+        default:
+            body.style.background = 'linear-gradient(90deg, #ff4b2b, #ff914d)';
+            break;
+    }
+    
+    // Salva também no localStorage para outras páginas
+    const settings = loadSettings();
+    settings.theme = theme;
+    localStorage.setItem('appSettings', JSON.stringify(settings));
 }
 
 // Função para aplicar idioma
@@ -168,13 +180,18 @@ function updateElementText(selector, text) {
 function applyNotifications(enabled) {
     const toggleStatus = document.getElementById('toggle-status');
     if (toggleStatus) {
-        toggleStatus.textContent = enabled ? 'Ativado' : 'Desativado';
+        const settings = loadSettings();
+        const lang = settings.language || 'pt';
+        const statusText = lang === 'en' ? (enabled ? 'Enabled' : 'Disabled') : 
+                          lang === 'es' ? (enabled ? 'Activado' : 'Desactivado') :
+                          (enabled ? 'Ativado' : 'Desativado');
+        
+        toggleStatus.textContent = statusText;
         toggleStatus.style.color = enabled ? '#4caf50' : '#f44336';
     }
     
     if (enabled) {
         console.log('Notificações ativadas');
-        // Aqui você pode adicionar a lógica para solicitar permissão de notificação
         if ('Notification' in window && Notification.permission === 'default') {
             Notification.requestPermission();
         }
@@ -183,7 +200,7 @@ function applyNotifications(enabled) {
     }
 }
 
-// Função para atualizar nome de usuário
+// Função para atualizar nome de usuário DO BANCO DE DADOS
 function updateUsername(username) {
     const userElements = document.querySelectorAll('#username, .user-name, [data-username]');
     userElements.forEach(element => {
@@ -193,6 +210,32 @@ function updateUsername(username) {
             element.textContent = username;
         }
     });
+}
+
+// FUNÇÃO PARA CARREGAR USUÁRIO DO BANCO DE DADOS
+function carregarUsuarioDoBanco() {
+    try {
+        const usuarioData = localStorage.getItem('usuario');
+        
+        if (usuarioData) {
+            const usuario = JSON.parse(usuarioData);
+            console.log('Usuário carregado do banco:', usuario);
+            
+            // Usa o campo correto conforme estrutura da API
+            const nomeUsuario = usuario.nome || usuario.Nome || 'Usuário';
+            
+            // Atualiza o campo de username nas configurações
+            const usernameInput = document.getElementById('username');
+            if (usernameInput) {
+                usernameInput.value = nomeUsuario;
+            }
+            
+            return nomeUsuario;
+        }
+    } catch (error) {
+        console.error('Erro ao carregar usuário do banco:', error);
+    }
+    return 'Usuário';
 }
 
 // FUNÇÃO DE LOGOUT
@@ -280,6 +323,14 @@ function saveUserSettings() {
     const usernameInput = document.getElementById('username');
     if (usernameInput) {
         settings.username = usernameInput.value || settings.username;
+        
+        // Atualiza também no localStorage do usuário se estiver logado
+        const usuarioData = localStorage.getItem('usuario');
+        if (usuarioData) {
+            const usuario = JSON.parse(usuarioData);
+            usuario.nome = usernameInput.value;
+            localStorage.setItem('usuario', JSON.stringify(usuario));
+        }
     }
     
     const notificationsToggle = document.getElementById('notifications');
@@ -306,6 +357,9 @@ function initializeSettings() {
     const settings = loadSettings();
     applySettings(settings);
     
+    // CARREGA O USUÁRIO DO BANCO DE DADOS
+    carregarUsuarioDoBanco();
+    
     // Inicializar elementos da página de configurações se existirem
     const themeOptions = document.querySelectorAll('.theme-option');
     themeOptions.forEach(option => {
@@ -313,12 +367,16 @@ function initializeSettings() {
             const theme = this.getAttribute('data-theme');
             const newSettings = {...loadSettings(), theme};
             saveSettings(newSettings);
+            
+            // Aplica o tema imediatamente
+            applyBackgroundGradient(theme);
         });
     });
     
     // Inicializar toggle de notificações se existir
     const notificationsToggle = document.getElementById('notifications');
     if (notificationsToggle) {
+        notificationsToggle.checked = settings.notifications;
         notificationsToggle.addEventListener('change', function() {
             const newSettings = {...loadSettings(), notifications: this.checked};
             saveSettings(newSettings);
@@ -328,6 +386,7 @@ function initializeSettings() {
     // Inicializar seletor de idioma se existir
     const languageSelect = document.getElementById('language');
     if (languageSelect) {
+        languageSelect.value = settings.language;
         languageSelect.addEventListener('change', function() {
             const newSettings = {...loadSettings(), language: this.value};
             saveSettings(newSettings);
@@ -351,16 +410,6 @@ function initializeSettings() {
     if (downloadBtn) {
         downloadBtn.addEventListener('click', downloadManual);
     }
-
-    // Carregar nome do usuário atual se estiver logado
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-        const usuarioObj = JSON.parse(usuario);
-        const usernameInput = document.getElementById('username');
-        if (usernameInput) {
-            usernameInput.value = usuarioObj.nome || usuarioObj.Nome || 'Usuário';
-        }
-    }
 }
 
 // Adicionar estilos CSS para notificações e animações
@@ -381,5 +430,6 @@ document.head.appendChild(style);
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', initializeSettings);
 
-// Disponibiliza a função logout globalmente
+// Disponibiliza as funções globalmente
 window.logout = logout;
+window.applyBackgroundGradient = applyBackgroundGradient;
