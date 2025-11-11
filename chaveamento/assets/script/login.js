@@ -1,3 +1,22 @@
+// FUNÇÃO ESTÁTICA PARA MOSTRAR/OCULTAR SENHA
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const toggleBtn = input.nextElementSibling;
+    
+    if (input.type === 'password') {
+        // Mostrar senha
+        input.type = 'text';
+        toggleBtn.classList.add('showing');
+        toggleBtn.setAttribute('title', 'Ocultar senha');
+    } else {
+        // Ocultar senha
+        input.type = 'password';
+        toggleBtn.classList.remove('showing');
+        toggleBtn.setAttribute('title', 'Mostrar senha');
+    }
+}
+
+// O RESTANTE DO CÓDIGO DO login.js PERMANECE EXATAMENTE COMO ESTAVA ANTES...
 // SISTEMA DE LOGIN INTEGRADO (FastAPI + Supabase)
 let supabaseClient = null;
 
@@ -13,30 +32,6 @@ try {
     }
 } catch (error) {
     console.error('Erro ao inicializar Supabase:', error);
-}
-
-// FUNÇÃO MELHORADA PARA MOSTRAR/OCULTAR SENHA
-function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    const toggleBtn = input.nextElementSibling;
-    const eyeOpen = toggleBtn.querySelector('.eye-open');
-    const eyeClosed = toggleBtn.querySelector('.eye-closed');
-    
-    if (input.type === 'password') {
-        // Mostrar senha
-        input.type = 'text';
-        toggleBtn.classList.add('showing');
-        eyeOpen.style.opacity = '1';
-        eyeClosed.style.opacity = '0';
-        toggleBtn.setAttribute('title', 'Ocultar senha');
-    } else {
-        // Ocultar senha
-        input.type = 'password';
-        toggleBtn.classList.remove('showing');
-        eyeOpen.style.opacity = '0';
-        eyeClosed.style.opacity = '1';
-        toggleBtn.setAttribute('title', 'Mostrar senha');
-    }
 }
 
 // VALIDAÇÃO DE EMAIL
